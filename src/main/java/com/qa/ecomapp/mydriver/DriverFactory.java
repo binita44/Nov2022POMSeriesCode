@@ -15,6 +15,8 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
+import com.qa.ecomapp.exception.FrameworkException;
+
 public class DriverFactory {
 	//Initializing and running driver
 	
@@ -55,6 +57,7 @@ public class DriverFactory {
 		}
 		else {
 			System.out.println("Please pass write browser : " + browserName);
+			throw new FrameworkException("NO BROWSER FOUND EXCEPTION");
 			}
 			
 			getDriver().manage().deleteAllCookies();
@@ -83,16 +86,52 @@ public class DriverFactory {
 	 * @return
 	 */
 	public Properties initProp () {
+		//maven clean instal -Denv = "qa" -D is used for env variable
+		//how to read env variable from java
 		prop = new Properties();
+		FileInputStream ip = null;
+		String envName = System.getProperty("env");//for getting env variable name
+		System.out.println("Running Test Case on : "+ envName);
+		
 		try {
-			FileInputStream ip = new FileInputStream("./src/test/resources/configure/config.properties");
-			prop.load(ip);//we will use.load method using properties reference  v
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		//this class is used to interact with the files in java
-		} catch (IOException e) {
-			e.printStackTrace();
-	}
+		if(envName==null) {
+			System.out.println("Running in QA Environment");
+		 ip = new FileInputStream("./src/test/resources/configure/qa.config.properties");
+			
+			
+		}
+		else {
+			switch (envName.trim().toLowerCase()) {
+			case "qa":
+				ip = new FileInputStream("./src/test/resources/configure/qa.config.properties");
+				break;
+			case "dev":
+				ip = new FileInputStream("./src/test/resources/configure/dev.config.properties");
+				break;
+			case "stage":
+				ip = new FileInputStream("./src/test/resources/configure/stage.config.properties");
+				break;
+			case "production":
+				ip = new FileInputStream("./src/test/resources/configure/production.config.properties");
+				break;
+
+			default:
+			System.out.println("====Wrong Environment Passed==No need to run Test case=== ");
+			throw new FrameworkException("WRONG ENVIRONMENT PASSED...");
+
+				//break; After using throw exception it will not come to break
+			}
+		}
+		}catch(FileNotFoundException e) {
+			
+		}
+	try {
+		prop.load(ip);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}		
+	
 	return prop; 
 	
 	}

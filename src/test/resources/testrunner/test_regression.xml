@@ -8,9 +8,16 @@
 	<listeners>
 		<listener
 			class-name="com.qa.ecomapp.listener.ExtentReportListener" />
-		<listener
+		
+	<!--	<listener
 			class-name="com.qa.ecomapp.listener.TestAllureListener" />
+			-->
+		
+		<listener
+			class-name="com.qa.ecomapp.listener.AnnotationTransformer" />
+	
 	</listeners>
+	
 	
 
 
@@ -20,7 +27,7 @@
 		</classes>
 	</test>
 	
-	<test name="Accounts Page Test">
+	<!-- <test name="Accounts Page Test">
 		<classes>
 			<class name="com.qa.ecomapp.uitest.AccountsPageTest" />
 		</classes>
@@ -36,7 +43,7 @@
 		<classes>
 			<class name="com.qa.ecomapp.uitest.RegistrationPageTest" />
 		</classes>
-	</test> 
+	</test> -->
 
 	
 

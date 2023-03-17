@@ -37,7 +37,7 @@ public class DriverFactory {
 		optionManager = new OptionsManager(prop);
 		highlight = prop.getProperty("highlight").trim(); 
 		String browserName = prop.getProperty("browser").trim().toLowerCase();
-		System.out.println("Browser name : " + browserName);
+		System.out.println("The Browser name is : " + browserName);
 		
 		if (browserName.equalsIgnoreCase("chrome")){
 			//driver = new ChromeDriver(optionManager.getChromeOtions());	
